@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www/thymeleaf.org">
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Recruitment Manager</title>
+	</head>
+	<body>
+		<div align="center">
+			<h1> Recruitment Manager </h1>
+			<a href="new"> Create new Job </a>
+			<br/><br/>
+			<table border=1 cellpadding="10">
+				<thead>
+					<tr>
+						<th> Job Id </th>
+						<th> Job Title </th>
+						<th> Start Date </th>
+						<th> Number Of Applicants </th>
+						<th> Applicants </th>
+					</tr>
+				<!-- 
+					<tr>
+						<th> Candidate Id </th>
+						<th> Candidate Name </th>
+						<th> Phone Number </th>
+						<th> Email </th>
+						<th> Resume </th>
+					</tr>
+				 -->
+				</thead>
+				<tbody>
+					<tr th:each="job : ${listOfJobs}">
+						<td  th:text="${job.id}"> Job Id</td> 
+						<td  th:text="${job.title}"> Job Title</td>  
+						<td  th:text="${job.startdate}"> Start Date </td>  
+						<td  th:text="${job.numberofapplications}"> Number Of Applicants</td>
+						<td>
+							<a th:href="@{'/find/'+${job.id}}"> Applicants </a>
+						</td>  
+					
+					</tr>
+					<!-- 
+					<tr th:each="candidate : ${listCandidates}">
+						<td  th:text="${candidate.id}"> Candidate Id</td> 
+						<td  th:text="${candidate.name}"> Candidate Name</td>  
+						<td  th:text="${candidate.phoneno}"> Phone Number</td>  
+						<td  th:text="${candidate.email}"> Email</td>  
+						<td  th:text="${candidate.resume}"> Resume</td> 
+					</tr> 
+					 --> 
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html>

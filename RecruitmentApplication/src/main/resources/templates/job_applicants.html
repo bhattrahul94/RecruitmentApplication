@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www/thymeleaf.org">
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Job Applicants</title>
+	</head>
+	<body>
+		<div align="center">
+			<h1> Job Applicants </h1>
+			<br/>
+			<table border=1 cellpadding="10">
+				<thead> 
+					<tr>
+						<th> Candidate Id </th>
+						<th> Candidate Name </th>
+						<th> Phone Number </th>
+						<th> Email </th>
+						<th> Resume </th>
+						
+					</tr>
+				</thead>
+				<tbody> 
+					<tr th:each="candidate : ${listCandidates}">
+						<td  th:text="${candidate.id}"> Candidate Id</td> 
+						<td  th:text="${candidate.name}"> Candidate Name</td>  
+						<td  th:text="${candidate.phoneno}"> Phone Number</td>  
+						<td  th:text="${candidate.email}"> Email</td>  
+						<td  th:text="${candidate.resume}"> Resume</td> 
+						
+					</tr>  
+				</tbody>
+			</table>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Application Form</title>
+</head>
+<body>
+	<div align="center">
+		<h1> Apply for jobs </h1>
+		<br/>
+		<form action="#" th:action="@{/submit}" th:object="${candidate}" method="post">
+			<table border = "0" cellpadding="10">
+				<tr>
+					<td> Candidate Name: </td>
+					<td><input type="text" th:field="*{name}"/></td>
+				</tr>
+				<tr>
+					<td> Phone Number: </td>
+					<td><input type="text" th:field="*{phoneno}"/></td>
+				</tr>
+				<tr>
+					<td> Email: </td>
+					<td><input type="text" th:field="*{email}"/></td>
+				</tr>
+				<tr>
+					<td> Resume: </td>
+					<td><input type="text" th:field="*{resume}"/></td>
+				</tr>
+				<tr>
+					<td> Job : </td>
+					<td>
+						<select th:field="*{job}">
+	                         <option value=""> -- </option>
+	                         <option th:each="job : ${listOfJobs}"
+	                            th:value="${job.id}"
+	                            th:utext="${job.title}"/>
+                  		</select>
+                  		
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2"><button type="submit"> Apply </button>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>

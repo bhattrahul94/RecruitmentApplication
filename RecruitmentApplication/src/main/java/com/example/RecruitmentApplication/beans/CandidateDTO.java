@@ -92,6 +92,7 @@ public class CandidateDTO {
 	
 	public static CandidateDTO convertToCandidateDTO(Candidate candidate) {
 		CandidateDTO candidateDTO = new CandidateDTO();
+		candidateDTO.setId(candidate.getId());
 		candidateDTO.setEmail(candidate.getEmail());
 		candidateDTO.setResume(candidate.getResume());
 		candidateDTO.setName(candidate.getName());

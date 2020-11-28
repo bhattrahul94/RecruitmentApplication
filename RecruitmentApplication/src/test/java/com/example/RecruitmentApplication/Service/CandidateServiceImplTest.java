@@ -1,20 +1,11 @@
  package com.example.RecruitmentApplication.Service;
 
- import com.fasterxml.jackson.databind.ObjectMapper;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-
-import java.sql.SQLException;
+ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import org.hibernate.event.spi.PostCollectionRecreateEvent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -26,8 +17,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.RecruitmentApplication.beans.CandidateDTO;
@@ -88,7 +77,7 @@ class CandidateServiceImplTest {
 		List<Candidate> listOfCandidates = candidateService.listAll();
 		
 		Assertions.assertNotNull(listOfCandidates);
-		Assertions.assertEquals(3, listOfCandidates.size());
+		Assertions.assertEquals(2, listOfCandidates.size());
 	}
 	
 	

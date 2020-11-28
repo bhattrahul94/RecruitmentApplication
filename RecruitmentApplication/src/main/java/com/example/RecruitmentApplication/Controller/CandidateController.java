@@ -25,7 +25,7 @@ import com.example.RecruitmentApplication.entity.Job;
 
 
 @RestController
-@RequestMapping("v1/Candidate")
+@RequestMapping("/v1/Candidate")
 public class CandidateController {
 	
 		@Autowired
@@ -40,7 +40,7 @@ public class CandidateController {
 		public ResponseEntity applyForJob(@RequestBody CandidateDTO candidateDTO) {
 			System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<Inside Controller>>>>>>>>>>>>>>>>>>>>>>");
 			Job job = jobservice.get(candidateDTO.getJob_id());
-			System.out.println("Title ------------->>>>>>"+ job.getTitle());
+			//System.out.println("Title ------------->>>>>>"+ job.getTitle());
 			Candidate candidate = CandidateDTO.convertToCandidateEntity(candidateDTO);
 			
 			

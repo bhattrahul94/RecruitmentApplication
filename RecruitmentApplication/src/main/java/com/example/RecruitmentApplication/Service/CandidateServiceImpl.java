@@ -51,6 +51,7 @@ public class CandidateServiceImpl implements CandidateService {
 	
 	@Override
 	public Candidate getCandidateById(Long id) {
+		
 		return repo.findById(id).orElse(null);
 	}
 	

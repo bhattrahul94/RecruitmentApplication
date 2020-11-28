@@ -1,7 +1,5 @@
 package com.example.RecruitmentApplication.Service;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.RecruitmentApplication.dao.JobDAO;
-import com.example.RecruitmentApplication.entity.Candidate;
 import com.example.RecruitmentApplication.entity.Job;
 
 

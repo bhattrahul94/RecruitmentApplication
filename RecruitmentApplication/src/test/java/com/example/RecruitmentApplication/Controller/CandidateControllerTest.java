@@ -10,22 +10,22 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-//import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 //import org.mockito.junit.jupiter.MockitoExtension;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,9 @@ import org.springframework.test.web.servlet.MockMvc;
 //import org.springframework.test.web.servlet.MockMvc;
 
 import com.example.RecruitmentApplication.Service.CandidateService;
+import com.example.RecruitmentApplication.Service.CandidateServiceImpl;
 import com.example.RecruitmentApplication.Service.JobService;
+import com.example.RecruitmentApplication.Service.JobServiceImpl;
 import com.example.RecruitmentApplication.beans.CandidateDTO;
 import com.example.RecruitmentApplication.entity.Candidate;
 import com.example.RecruitmentApplication.entity.Job;
@@ -44,12 +46,12 @@ import com.example.RecruitmentApplication.utility.ApplicationStatus;
 
 
 
-@RunWith(SpringRunner.class)
-@SpringBootTest()
-@AutoConfigureMockMvc
-@ExtendWith(MockitoExtension.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest
+//@ExtendWith(MockitoExtension.class)
 @TestInstance(value = Lifecycle.PER_CLASS)
-@WebMvcTest(CandidateControllerTest.class)
+@AutoConfigureMockMvc
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class CandidateControllerTest {
 	
 	
@@ -57,13 +59,10 @@ public class CandidateControllerTest {
 	private MockMvc mockMvc;
 	
 	@MockBean
-	private JobService jobService;
+	private JobServiceImpl jobService;
 	
 	@MockBean
-	private CandidateService candidateService;
-	
-//	@InjectMocks
-//	private CandidateController candidateController;
+	private CandidateServiceImpl candidateService;
 	
 	
 	private Candidate candidate1;
@@ -73,7 +72,7 @@ public class CandidateControllerTest {
 	private CandidateDTO candidateDto;
 	
 	
-	@Before
+	@BeforeAll
 	public void setup() {
 		candidate1 = new Candidate(1L,"rahul","123","a@b.com","qerty",job, ApplicationStatus.APPLIED);
 		candidate2 = new Candidate(2L,"ravi","129","q@p.com","pofy",job, ApplicationStatus.APPLIED);
@@ -87,7 +86,7 @@ public class CandidateControllerTest {
 		
 		Mockito.when(candidateService.getCandidateById(id)).thenReturn(candidate1);	
 		
-		this.mockMvc.perform(get("/rest/v1/Candidate/" + candidate1.getId()))
+		this.mockMvc.perform(get("/v1/Candidate/" + candidate1.getId()))
 					.andExpect(status().isOk())
 					.andExpect(jsonPath("$.id").value(candidate1.getId()))
 					.andExpect(jsonPath("$.email").value(candidate1.getEmail()))
@@ -98,9 +97,9 @@ public class CandidateControllerTest {
 	@Test
 	public void testGetCandidateByIdNotFound() throws Exception {
 		Long id = 1L;
-		Mockito.when(candidateService.getCandidateById(id)).thenReturn(candidate1);
+		Mockito.when(candidateService.getCandidateById(id)).thenReturn(null);
 		
-		this.mockMvc.perform(get("/rest/v1/Candidate/" + 1L))
+		this.mockMvc.perform(get("/v1/Candidate/" + 1L))
         .andExpect(status().isNotFound());
 	}
 	
@@ -111,7 +110,7 @@ public class CandidateControllerTest {
 		
 		Mockito.doNothing().when(candidateService).createJobApplication(candidate1);
 		
-		mockMvc.perform(post("/rest/v1/Candidate")
+		mockMvc.perform(MockMvcRequestBuilders.post("/v1/Candidate")
 				.contentType("application/json")
 				.content("{\"name\": \"rahul1\",\"email\": \"3.b@gmail.com\",\"phoneno\": \"123\",\"resume\": \"adfsc\",\"job_id\": \"1\"}"))
 				.andExpect(status().isCreated());
@@ -125,7 +124,7 @@ public class CandidateControllerTest {
 		
 		Mockito.doNothing().when(candidateService).createJobApplication(candidate1);
 		
-		mockMvc.perform(post("/rest/v1/Candidate")
+		mockMvc.perform(post("/v1/Candidate")
 						.contentType("application/json")
 						.content("{\"name\": \"rahul1\",\"email\": \"3.b@gmail.com\",\"phoneno\": \"123\",\"resume\": \"adfsc\",\"job_id\": \"1\"}"))
 						.andExpect(status().isUnprocessableEntity());
@@ -137,7 +136,7 @@ public class CandidateControllerTest {
 		Long id = 1L;
 		Mockito.when(candidateService.getAllCandidatesByJobId(id)).thenReturn(Arrays.asList(candidate1,candidate2));
 	
-		this.mockMvc.perform(get("/rest/v1/application/getAllByOffer/" + 1L))
+		this.mockMvc.perform(get("/v1/Candidate/getByJobId/" + 1L))
 							.andExpect(status().isOk())
 							.andExpect(jsonPath("$.*", hasSize(2)));
 	}
@@ -146,7 +145,7 @@ public class CandidateControllerTest {
 	public void testGetCandidateByJobIdEmpty() throws Exception {
 		Long id = 1L;
 		Mockito.when(candidateService.getAllCandidatesByJobId(id)).thenReturn(Collections.emptyList());
-		this.mockMvc.perform(get("/rest/v1/application/getAllByOffer/" + 1L))
+		this.mockMvc.perform(get("/v1/Candidate/getByJobId/" + 1L))
 									.andExpect(status().isNoContent());
 	
 	}

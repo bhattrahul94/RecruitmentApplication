@@ -36,6 +36,8 @@ public class JobController {
 		public ResponseEntity<List<JobDTO>> getAllJobs() {
 			System.out.println("Inside Controller");
 			List<Job> listOfJobs = this.jobservice.listAll();
+			
+			System.out.println("<<<<<<<<<<<<<<" + listOfJobs.size() + ">>>>>>>>>>>>>>>>");
 			if(listOfJobs.isEmpty()) return ResponseEntity.noContent().build();
 			 
 			return ResponseEntity.ok().body(listOfJobs.stream().map(JobDTO::convertToJobDTO).collect(Collectors.toList()));
@@ -46,13 +48,15 @@ public class JobController {
 		// Get Job By ID()
 		@GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<JobDTO> getJobById(@PathVariable("id") Long jobId){
-			
+			System.out.println("Inside getJobById");
 			Job job = this.jobservice.get(jobId);
 			
-			if(job != null) {
-				return ResponseEntity.ok().body(JobDTO.convertToJobDTO(job));
+			System.out.println("job================>>>>>>>>" + job);
+			if(job == null) {
+				return ResponseEntity.notFound().build();
 			}
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.ok().body(JobDTO.convertToJobDTO(job));
+			
 		}
 		
 		
